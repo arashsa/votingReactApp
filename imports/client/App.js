@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
-
-let hello = 0;
+import Heading from './Heading';
 
 export default class App extends Component {
+    constructor() {
+        super();
+        this.state = {
+            count: 0
+        }
+    }
     addOne() {
-        console.log(hello)
-        hello += 1;
+        this.setState({count: this.state.count + 1})
     }
     render() {
         return (
-            <h1 onClick={this.addOne}>Hello! Number: {hello} </h1>
+            <header onClick={this.addOne.bind(this)}>
+                <Heading count={this.state.count}/>
+            </header>
         );
     }
 }
