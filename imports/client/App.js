@@ -1,34 +1,10 @@
 import React, { Component } from 'react';
-// import Heading from './Heading';
 import Items from '../api/Items';
 import Item from '../client/Item';
 import { createContainer } from 'meteor/react-meteor-data';
+import AccountsUIWrapper from '../ui/AccountsUIWrapper.js';
 
 class App extends Component {
-    // every class needs a constructor
-    // set state and other variables here
-    // constructor() {
-    //     super();
-    //     this.state = {
-    //         count: 0
-    //     }
-    // }
-    // // class functions
-    // addOne() {
-    //     // this in order to access the object state
-    //     // object has various methods for setting, getting etc state
-    //     this.setState({count: this.state.count + 1})
-    // }
-    // // this is returned as html from object
-    // render() {
-    //     // bind method to access state
-    //     // Heading is a class that takes a count argument
-    //     return (
-    //         <header onClick={this.addOne.bind(this)}>
-    //             <Heading count={this.state.count}/>
-    //         </header>
-    //     );
-    // }
     clear(event) {
         const valueOne = this.refs.itemOne.value;
         const valueTwo = this.refs.itemTwo.value;
@@ -68,13 +44,14 @@ class App extends Component {
         return (
             <div>
             <header>
-                <h1>Level Up Voting</h1>
+                <h1>Chatbot Login</h1>
+                <AccountsUIWrapper />
                 <form className="item" action="" onSubmit={this.addItems.bind(this)}>
                     <input type="text" ref="itemOne" onClick={this.clear.bind(this)}/>
                     <input type="text" ref="itemTwo" onClick={this.clear.bind(this)}/>
-                    <button type="submit">Add items</button>
                 </form>
 
+                <button type="submit" onClick={this.addItems.bind(this)}>Add items</button>
                 <button type="submit" onClick={this.removeAll}>Remove All</button>
 
                 <main>
