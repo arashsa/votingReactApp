@@ -13,7 +13,7 @@ export default class Item extends Component {
     }
 
     voteTwo() {
-        if (Meteor.userdID()) {
+        if (Meteor.userId()) {
             Items.update({ _id: this.props.item._id }, {
                 $inc: {
                     'itemTwo.value': 1

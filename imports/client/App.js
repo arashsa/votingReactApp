@@ -8,7 +8,7 @@ class App extends Component {
     clear(event) {
         const valueOne = this.refs.itemOne.value;
         const valueTwo = this.refs.itemTwo.value;
-        
+
         if (valueOne == 'Error' && valueTwo == 'Error') {
             this.refs.itemOne.value = ''
             this.refs.itemTwo.value = ''
@@ -43,23 +43,23 @@ class App extends Component {
     render() {
         return (
             <div>
-            <header>
-                <h1>Chatbot Login</h1>
-                <AccountsUIWrapper />
-                <form className="item" action="" onSubmit={this.addItems.bind(this)}>
-                    <input type="text" ref="itemOne" onClick={this.clear.bind(this)}/>
-                    <input type="text" ref="itemTwo" onClick={this.clear.bind(this)}/>
-                </form>
+                <header>
+                    <h1>Chatbot Login</h1>
+                    <AccountsUIWrapper />
+                    <form className="item" action="" onSubmit={this.addItems.bind(this)}>
+                        <input type="text" ref="itemOne" onClick={this.clear.bind(this)} />
+                        <input type="text" ref="itemTwo" onClick={this.clear.bind(this)} />
+                    </form>
 
-                <button type="submit" onClick={this.addItems.bind(this)}>Add items</button>
-                <button type="submit" onClick={this.removeAll}>Remove All</button>
+                    <button type="submit" onClick={this.addItems.bind(this)}>Add items</button>
+                    <button type="submit" onClick={this.removeAll}>Remove All</button>
 
-                <main>
-                    {this.props.items.map((item) => {
-                        return <Item item={item} key={item._id} />
-                    })}
-                </main>
-            </header>
+                    <main>
+                        {this.props.items.map((item) => {
+                            return <Item item={item} key={item._id} />
+                        })}
+                    </main>
+                </header>
             </div>
         )
     }
