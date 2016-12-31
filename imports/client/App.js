@@ -29,19 +29,54 @@ class App extends Component {
     //         </header>
     //     );
     // }
+    clear(event) {
+        const valueOne = this.refs.itemOne.value;
+        const valueTwo = this.refs.itemTwo.value;
+        
+        if (valueOne == 'Error' && valueTwo == 'Error') {
+            this.refs.itemOne.value = ''
+            this.refs.itemTwo.value = ''
+        }
+    }
+    removeAll() {
+        Meteor.call('remove');
+    }
     addItems(event) {
         event.preventDefault();
+        const valueOne = this.refs.itemOne.value;
+        const valueTwo = this.refs.itemTwo.value;
+
+        if (valueOne != '' && valueTwo != '' && valueOne != 'Error' && valueTwo != 'Error' && valueOne != valueTwo) {
+            Items.insert({
+                itemOne: {
+                    text: valueOne,
+                    value: 0
+                },
+                itemTwo: {
+                    text: valueTwo,
+                    value: 0
+                }
+            });
+            this.refs.itemOne.value = ''
+            this.refs.itemTwo.value = ''
+        } else {
+            this.refs.itemOne.value = 'Error'
+            this.refs.itemTwo.value = 'Error'
+        }
     }
     render() {
         return (
             <div>
             <header>
                 <h1>Level Up Voting</h1>
-                <form action="" onSubmit={this.addItems}>
-                    <input type="text"/>
-                    <input type="text"/>
+                <form className="item" action="" onSubmit={this.addItems.bind(this)}>
+                    <input type="text" ref="itemOne" onClick={this.clear.bind(this)}/>
+                    <input type="text" ref="itemTwo" onClick={this.clear.bind(this)}/>
                     <button type="submit">Add items</button>
                 </form>
+
+                <button type="submit" onClick={this.removeAll}>Remove All</button>
+
                 <main>
                     {this.props.items.map((item) => {
                         return <Item item={item} key={item._id} />
