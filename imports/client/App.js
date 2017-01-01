@@ -43,6 +43,11 @@ class App extends Component {
             this.refs.itemTwo.value = 'Error'
         }
     }
+
+    showAll() {
+        Session.set('showAll', true);
+    }
+    
     render() {
 
         // Loading screen
@@ -55,6 +60,7 @@ class App extends Component {
                 <header>
                     <h1>Chatbot Login</h1>
                     <AccountsUIWrapper />
+                    <button onClick={this.showAll}>Show All</button>
 
                     <form className="item" type="submit" onSubmit={this.addItems.bind(this)}>
                         <input id="1" type="text" ref="itemOne" onClick={this.clear.bind(this)} />
