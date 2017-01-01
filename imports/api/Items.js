@@ -35,7 +35,7 @@ Meteor.methods({
                 'itemOne.value': 1
             },
             $set: {
-                lastUpdated
+                lastUpdated: lastUpdated
             }
         });
     },
@@ -46,7 +46,7 @@ Meteor.methods({
                 'itemTwo.value': 1
             },
             $set: {
-                lastUpdated
+                lastUpdated: lastUpdated
             }
         });
     },

@@ -45,9 +45,9 @@ class App extends Component {
     }
 
     showAll() {
-        Session.set('showAll', true);
+        Session.set('showAll', !Session.get('showAll'));
     }
-    
+
     render() {
 
         // Loading screen
@@ -60,7 +60,7 @@ class App extends Component {
                 <header>
                     <h1>Chatbot Login</h1>
                     <AccountsUIWrapper />
-                    <button onClick={this.showAll}>Show All</button>
+                    <button onClick={this.showAll}>Show {this.props.showAll ? 'One' : 'All'}</button>
 
                     <form className="item" type="submit" onSubmit={this.addItems.bind(this)}>
                         <input id="1" type="text" ref="itemOne" onClick={this.clear.bind(this)} />
@@ -82,12 +82,21 @@ class App extends Component {
     }
 }
 
+Meteor.startup(function () {
+    Session.set('showAll', false);
+});
+
 // Container to grab data for components
 export default createContainer(() => {
-    // The subsciption now access the items
+    // The subsrciption now access the items
     let itemsSub = Meteor.subscribe('allItems');
+    let showAll = Session.get('showAll');
     return {
         ready: itemsSub.ready(),
-        items: Items.find({}, { limit: 1, sort: { lastUpdated: 1 } }).fetch()
+        items: Items.find({}, {
+            limit: showAll ? 50 : 1,
+            sort: { lastUpdated: 1 }
+        }).fetch(),
+        showAll: showAll
     }
 }, App);
