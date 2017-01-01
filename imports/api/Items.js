@@ -3,8 +3,10 @@
 const Items = new Mongo.Collection('items');
 
 if (Meteor.isServer) {
+    // return data that the client can subscribe to
     Meteor.publish('allItems', function() {
-        return Items.find();
+        // Limit what you push out from database in order to leve load.
+        return Items.find({}, { limit: 50, sort: { lastUpdated: 1 } });
     });
 }
 
@@ -27,16 +29,24 @@ Meteor.methods({
         });
     },
     updateItemOne: function (id) {
+        let lastUpdated = new Date();
         Items.update({ _id: id }, {
             $inc: {
                 'itemOne.value': 1
+            },
+            $set: {
+                lastUpdated
             }
         });
     },
     updateItemTwo: function (id) {
+        let lastUpdated = new Date();
         Items.update({ _id: id }, {
             $inc: {
                 'itemTwo.value': 1
+            },
+            $set: {
+                lastUpdated
             }
         });
     },

@@ -23,7 +23,7 @@ class App extends Component {
     }
     addItems(event) {
         event.preventDefault();
-        
+
         if (!Meteor.userId())
             return;
 
@@ -44,6 +44,12 @@ class App extends Component {
         }
     }
     render() {
+
+        // Loading screen
+        if (!this.props.ready) {
+            return <div>Loading...</div>
+        }
+
         return (
             <div>
                 <header>
@@ -70,8 +76,12 @@ class App extends Component {
     }
 }
 
+// Container to grab data for components
 export default createContainer(() => {
+    // The subsciption now access the items
+    let itemsSub = Meteor.subscribe('allItems');
     return {
-        items: Items.find({}).fetch()
+        ready: itemsSub.ready(),
+        items: Items.find({}, { limit: 1, sort: { lastUpdated: 1 } }).fetch()
     }
 }, App);
