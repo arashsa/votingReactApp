@@ -15,17 +15,29 @@ class App extends Component {
         }
     }
     removeAll() {
-        Meteor.call('remove');
+        if (Meteor.userId())
+            Meteor.call('remove');
+    }
+    removeOne(id) {
+        Meteor.call('removeOne', id);
     }
     addItems(event) {
         event.preventDefault();
+        
+        if (!Meteor.userId())
+            return;
+
         const valueOne = this.refs.itemOne.value;
         const valueTwo = this.refs.itemTwo.value;
 
         if (valueOne != '' && valueTwo != '' && valueOne != 'Error' && valueTwo != 'Error' && valueOne != valueTwo) {
-            Meteor.call('insert', valueOne, valueTwo);
-            this.refs.itemOne.value = ''
-            this.refs.itemTwo.value = ''
+            Meteor.call('insert', valueOne, valueTwo, (err, res) => {
+                if (!err) {
+                    this.refs.itemOne.value = ''
+                    this.refs.itemTwo.value = ''
+                }
+            });
+            document.getElementById('1').focus()
         } else {
             this.refs.itemOne.value = 'Error'
             this.refs.itemTwo.value = 'Error'
@@ -37,9 +49,11 @@ class App extends Component {
                 <header>
                     <h1>Chatbot Login</h1>
                     <AccountsUIWrapper />
-                    <form className="item" action="" onSubmit={this.addItems.bind(this)}>
-                        <input type="text" ref="itemOne" onClick={this.clear.bind(this)} />
+
+                    <form className="item" type="submit" onSubmit={this.addItems.bind(this)}>
+                        <input id="1" type="text" ref="itemOne" onClick={this.clear.bind(this)} />
                         <input type="text" ref="itemTwo" onClick={this.clear.bind(this)} />
+                        <button style={{ position: "absolute", left: "-9999px" }}></button>
                     </form>
 
                     <button type="submit" onClick={this.addItems.bind(this)}>Add items</button>
